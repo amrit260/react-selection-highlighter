@@ -1,62 +1,26 @@
 {
   "name": "react-selection-highlighter",
   "version": "1.0.0",
-  "description": "React-selection-highlighter lets users highlight text in your site, add annotations, and save it all to your backend in a breeze.",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/esm/index.d.ts",
+  "description": "",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html --dist-dir docs --public-url ."
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amrit-260/react-selection-highlighter.git"
+    "url": "git+https://github.com/amrit260/react-selection-highlighter.git"
   },
-  "scripts": {
-    "build": "npm run build:esm && npm run build:cjs",
-    "build:esm": "tsc",
-    "test":"",
-    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
-    "lint": "eslint \"{**/*,*}.{js,ts,jsx,tsx}\"",
-    "prettier": "prettier --write \"{src,tests,example/src}/**/*.{js,ts,jsx,tsx}\"",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run prettier && npm run lint"
-  },
-  "keywords": [
-    "selection",
-    "highlight",
-    "annotations",
-    "react selection",
-    "react-highlight-text",
-    "react-annotations"
-  ],
-  "author": "Amrit Sharma (amrit260)",
+  "author": "amrit260",
   "license": "MIT",
-  "files": [
-    "dist",
-    "LICENSE",
-    "README.md"
-  ],
-  "peerDependencies": {
-    "react": ">=16",
-    "html-react-parser": "^5.1.7",
-    "rangy": "^1.3.1"
-  },
+  "keywords": [],
   "devDependencies": {
-    "@types/react": "^18.2.59",
+    "@types/react": "^18.2.60",
     "@types/react-dom": "^18.2.19",
-    "@typescript-eslint/eslint-plugin": "^7.1.0",
-    "@typescript-eslint/parser": "^7.1.0",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.1.3",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "prettier": "^3.2.5",
+    "parcel": "^2.11.0",
+    "process": "^0.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tslib": "^2.6.2",
+    "react-selection-highlighter": "^1.0.0",
     "typescript": "^5.3.3"
-  },
-  "dependencies": {
-    "html-react-parser": "^5.1.7",
-    "rangy": "^1.3.1"
   }
 }

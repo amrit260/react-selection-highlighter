@@ -1,3 +1,5 @@
 node_modules
-dist
+yarn.lock
 .parcel-cache
+dist
+yarn-error.log
