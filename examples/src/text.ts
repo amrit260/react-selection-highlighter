@@ -1,0 +1,4 @@
+export const text = `<h1>Skull </h1> <p>
+The cat skull is unusual among mammals in having very large eye sockets and a powerful specialized jaw.[51]: 35  Within the jaw, cats have teeth adapted for killing prey and tearing meat. When it overpowers its prey, a cat delivers a lethal neck bite with its two long canine teeth, inserting them between two of the prey's vertebrae and severing its spinal cord, causing irreversible paralysis and death.[52] <strong>Compared to other felines, </strong>domestic cats have narrowly spaced canine teeth relative to the size of their jaw, which is an adaptation to their preferred prey of small rodents, which have small vertebrae.[52]
+
+</p>`
