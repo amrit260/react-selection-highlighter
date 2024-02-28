@@ -6,7 +6,7 @@ A React component for highlighting text selections within text and HTML content.
 
 <div align="center">
         <a href="#" title="React Selection Highlighter">
-            <img src="https://raw.githubusercontent.com/amrit260/react-selection-highlighter/master/demo.png" alt="demo" />
+            <img src="https://raw.githubusercontent.com/amrit260/react-selection-highlighter/main/demo.png" alt="demo" />
         </a>
 </div>
 
