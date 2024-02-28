@@ -1,5 +1,3 @@
-
-
 # React Selection Highlighter
 
 A React component for highlighting text selections within text and HTML content. This package not only facilitates highlighting but also offers the ability to save selections to a database, allowing for reconstruction of highlights and popovers at a later stage.
@@ -10,7 +8,7 @@ A React component for highlighting text selections within text and HTML content.
         </a>
 </div>
 
-<div align="center">
+
 
 ## Installation
 
@@ -46,33 +44,33 @@ To quickly get started with React Selection Highlighter, follow these steps:
     ```
 
 4. Add default classnames to your css file. If you are providing your own classes make sure you have styles for those classes.
-```css
-relative {
+    ```css
+    relative {
     position:relative;
-  }
-  .body{
+    }
+    .body{
     background-color: black;
-  }
+    } 
   
-  .bg-lightgreen{
+    .bg-lightgreen{
     background-color: #15F5BA;
-  }
-  .bg-red{
+    }
+    .bg-red{
     background-color: #FF407D;
-  }
+    }
   
-  .select-none{
+    .select-none{
     user-select: none;
-  }
+    }
   
-  .bg-yellow {
+    .bg-yellow {
     background-color: #F5DD61;
-  }
+    }
   
-  .bg-blue {
+    .bg-blue {
     background-color: #59D5E0;
-  }
-```
+    }
+    ```
 
 5. Implement the `Highlighter` component within a `SelectionProvider`:
 
