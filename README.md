@@ -8,6 +8,9 @@ A React component for highlighting text selections within text and HTML content.
         </a>
 </div>
 
+## Demo
+
+Check out the live demo of the Highlighter component: [Demo Link](https://highlighter-example.vercel.app/).
 
 
 ## Installation
