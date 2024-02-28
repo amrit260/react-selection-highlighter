@@ -45,7 +45,7 @@ To quickly get started with React Selection Highlighter, follow these steps:
 
 4. Add default classnames to your css file. If you are providing your own classes make sure you have styles for those classes.
     ```css
-    relative {
+    .relative {
     position:relative;
     }
     .body{
