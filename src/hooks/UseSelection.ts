@@ -3,6 +3,7 @@ import { useContext } from 'react'
 import { selectionsContext } from '../providers/SelectionProvider'
 import { removeHighlightFromDom } from '../libs/removeHighlight'
 import { SelectionType } from '../types'
+import { deserializeRange } from '../libs/serialize'
 
 export const useSelections = () => {
   const selectionContext = useContext(selectionsContext)
@@ -10,23 +11,51 @@ export const useSelections = () => {
     throw new Error('useSelection hook must be used inside selectionProvider')
   }
   const { selections, setSelections } = selectionContext
-  const addSelection = (selection: SelectionType) => {
+
+  // const setS:React.Dispatch<React.SetStateAction<SelectionType[]>> = ((arg:(prev:SelectionType[])=>void|SelectionType[])=>{
+
+  //   if(arg.length){
+  //     const newArgArr = (arg as unknown as SelectionType[]).forEach(item=>{
+
+  //     })
+  //     const nsfa = arg.forEach
+  //   }
+
+  // })
+
+  const constructSelections = async (data:SelectionType)=>{
+
+    // if(data.length){
+       const range = await deserializeRange(data.meta)
+    return {...data,range}
+    // }
+
+    
+
+   
+  }
+
+  
+  const addSelection = async (selection: SelectionType) => {
+    const withRange = await constructSelections(selection)
     setSelections((prev) => {
+
       const index = prev.findIndex((item) => item.id === selection.id)
       if (index === -1) {
-        return [...prev, selection]
+        return [...prev, withRange]
       }
       return prev
     })
   }
-  const updateSelection = (id: string, updatedSelection: SelectionType) => {
+  const updateSelection = async (id: string, updatedSelection: SelectionType) => {
+    const range = await constructSelections(updatedSelection)
     setSelections((prev) => {
       const index = prev.findIndex((item) => item.id === id)
 
       if (index !== -1) {
         return prev.splice(index, 1)
       }
-      return [...prev, updatedSelection]
+      return [...prev,range ]
     })
   }
   const removeSelection = (selection: SelectionType) => {

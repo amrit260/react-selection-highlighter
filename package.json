@@ -1,6 +1,6 @@
 {
   "name": "react-selection-highlighter",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "React-selection-highlighter lets users highlight text in your site, add annotations, and save it all to your backend in a breeze.",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -12,7 +12,7 @@
   "scripts": {
     "build": "npm run build:esm && npm run build:cjs",
     "build:esm": "tsc",
-    "test":"",
+    "test": "",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs",
     "lint": "eslint \"{**/*,*}.{js,ts,jsx,tsx}\"",
     "prettier": "prettier --write \"{src,tests,example/src}/**/*.{js,ts,jsx,tsx}\"",

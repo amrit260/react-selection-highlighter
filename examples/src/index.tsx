@@ -1,13 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 // import { text } from './text'
-// import {} from 'react-selection-highlighter'
+import {Highlighter, SelectionProvider} from 'react-selection-highlighter'
+import { text } from './text'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <div>
-     example setup
+      <SelectionProvider>
+     <Highlighter htmlString={text}/>
+     </SelectionProvider>
     </div>
   </React.StrictMode>,
 )
