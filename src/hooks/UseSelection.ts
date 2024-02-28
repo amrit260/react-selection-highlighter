@@ -1,9 +1,9 @@
 import { useContext } from 'react'
 
 import { selectionsContext } from '../providers/SelectionProvider'
-import { removeHighlightFromDom } from '../libs/removeHighlight'
 import { SelectionType } from '../types'
-import { deserializeRange } from '../libs/serialize'
+// import { deserializeRange } from '../libs/serialize'
+import { removeHighlightFromDom, updateDom } from '../libs/dom'
 
 export const useSelections = () => {
   const selectionContext = useContext(selectionsContext)
@@ -23,39 +23,33 @@ export const useSelections = () => {
 
   // })
 
-  const constructSelections = async (data:SelectionType)=>{
+  // const constructSelections = async (data: SelectionType) => {
+  //   // if(data.length){
+  //   const range = await deserializeRange(data.meta)
+  //   return { ...data, range }
+  //   // }
+  // }
 
-    // if(data.length){
-       const range = await deserializeRange(data.meta)
-    return {...data,range}
-    // }
-
-    
-
-   
-  }
-
-  
   const addSelection = async (selection: SelectionType) => {
-    const withRange = await constructSelections(selection)
     setSelections((prev) => {
-
       const index = prev.findIndex((item) => item.id === selection.id)
       if (index === -1) {
-        return [...prev, withRange]
+        return [...prev, selection]
       }
       return prev
     })
   }
   const updateSelection = async (id: string, updatedSelection: SelectionType) => {
-    const range = await constructSelections(updatedSelection)
+    // const withRange = await constructSelections(updatedSelection)
+
     setSelections((prev) => {
       const index = prev.findIndex((item) => item.id === id)
 
       if (index !== -1) {
-        return prev.splice(index, 1)
+        updateDom(updatedSelection)
+        prev.splice(index, 1)
       }
-      return [...prev,range ]
+      return [...prev, updatedSelection]
     })
   }
   const removeSelection = (selection: SelectionType) => {
@@ -64,9 +58,9 @@ export const useSelections = () => {
 
       if (index !== -1) {
         removeHighlightFromDom(selection)
-        return prev.splice(index, 1)
+        prev.splice(index, 1)
       }
-      return prev
+      return [...prev]
     })
   }
 

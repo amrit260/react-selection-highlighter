@@ -2,7 +2,7 @@ export type SelectionType = {
   meta: string
   text: string
   id: string
-  backgroundColor: string
+  className?: string
   [Key: string]: any
 }
 export type WrapperChildrenType = React.FC<{

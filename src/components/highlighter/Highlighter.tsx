@@ -1,23 +1,22 @@
 /* eslint-disable react/no-deprecated */
 import ReactDOM from 'react-dom'
-
 import HTMLReactParser from 'html-react-parser/lib/index'
-import { addHighlight, isHighlightable } from '../../libs/addHighlight'
 import { deserializeRange, serializeRange } from '../../libs/serialize'
-import { MouseEventHandler, useCallback, useEffect } from 'react'
+import { MouseEventHandler, useCallback, useEffect, useMemo } from 'react'
 import { generateId } from '../../libs/uid'
 import { getPopoverElement, getSpanElement } from '../../libs/wrapperElements'
 import DefaultPopover from '../DeafultPopover'
 import { useSelections } from '../../hooks/UseSelection'
 import { SelectionType, WrapperChildrenType } from '../../types'
-import { defaultColor, defaultMinSelectionLength } from '../../constants/constants'
+import { defaultClassName, defaultMinSelectionLength } from '../../constants/constants'
+import { addHighlight, isHighlightable } from '../../libs/dom'
 
 interface BaseHighlighterProps {
   htmlString: string
   minSelectionLength?: number
   maxSelectionLength?: number
   rootClassName?: string
-  selections?: SelectionType[]
+  // selections?: SelectionType[]
   selectionWrapperClassName?: string
   PopoverClassName?: string
   PopoverChildren?: WrapperChildrenType
@@ -26,7 +25,6 @@ interface BaseHighlighterProps {
    * The highlight color for the component.
    * @type {string} - The color code. Default is red.
    */
-  highlightColor?: string
   onClickHighlight?: (selection: SelectionType, event: MouseEvent) => void
   onClick?: MouseEventHandler<HTMLDivElement>
 }
@@ -40,15 +38,15 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
   rootClassName,
   PopoverChildren,
   PopoverClassName,
-  highlightColor,
   selectionWrapperClassName,
   onClick,
+  // selections,
 }) => {
   const { selections, addSelection, removeSelection, updateSelection } = useSelections()
+  const content = useMemo(() => HTMLReactParser(htmlString), [htmlString])
   const getWrapper = useCallback(
     (selection: SelectionType) => {
-      const backgroundColor = selection.backgroundColor || highlightColor
-      const span = getSpanElement({ className: selectionWrapperClassName, highlightColor: backgroundColor })
+      const span = getSpanElement({ className: selectionWrapperClassName })
       if (!disablePopover) {
         const popover = getPopoverElement({ className: PopoverClassName })
         span.addEventListener('mouseover', () => {
@@ -86,6 +84,7 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
       if (onClickHighlight) {
         span.onclick = (e) => onClickHighlight(selection, e)
       }
+      span.className = selection.className || defaultClassName
       span.id = selection.id
 
       return span
@@ -94,7 +93,6 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
       selectionWrapperClassName,
       PopoverClassName,
       disablePopover,
-      highlightColor,
       onClickHighlight,
       PopoverChildren,
       removeSelection,
@@ -115,11 +113,9 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
     const newSelection: SelectionType = {
       meta: serializeRange(range),
       text: range.toString(),
-      id: generateId(),
-      backgroundColor: highlightColor || defaultColor,
+      id: `selection-${generateId()}`,
     }
     addSelection(newSelection)
-    // addHighlight(range,getWrapper(newSelection))
   }
 
   useEffect(() => {
@@ -135,7 +131,7 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
 
   return (
     <div onClick={onClick} onMouseUp={handleMouseUp} className={rootClassName}>
-      {HTMLReactParser(htmlString)}
+      {content}
     </div>
   )
 }

@@ -1,13 +1,8 @@
-export const getSpanElement = ({ className, highlightColor }: { className?: string; highlightColor?: string }) => {
+export const getSpanElement = ({ className }: { className?: string }) => {
   const span = document.createElement('span')
   if (className) {
     span.className = className
-  } else {
-    span.style.userSelect = 'none'
-    span.style.backgroundColor = highlightColor || 'red'
   }
-
-  span.style.position = 'relative'
   return span
 }
 export const getPopoverElement = ({ className }: { className?: string }) => {

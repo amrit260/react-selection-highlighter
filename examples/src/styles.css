@@ -1,0 +1,39 @@
+.roboto-regular {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+
+ /* Increase the line height to give more space between lines, making the text less dense */
+ line-height: 1.5;
+
+ /* Add some letter spacing to prevent the text from appearing too cramped */
+ letter-spacing: 0.05em;
+}
+
+
+.relative {
+    position:relative;
+  }
+  .body{
+    background-color: black;
+  }
+  
+  .bg-lightgreen{
+    background-color: #15F5BA;
+  }
+  .bg-red{
+    background-color: #FF407D;
+  }
+  
+  .select-none{
+    user-select: none;
+  }
+  
+  .bg-yellow {
+    background-color: #F5DD61;
+  }
+  
+  .bg-blue {
+    background-color: #59D5E0;
+  }
