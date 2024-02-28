@@ -14,6 +14,6 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
-    "react-selection-highlighter": "^1.0.4"
+    "react-selection-highlighter": "^1.0.6"
   }
 }
