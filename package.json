@@ -1,13 +1,13 @@
 {
   "name": "react-selection-highlighter",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "React-selection-highlighter lets users highlight text in your site, add annotations, and save it all to your backend in a breeze.",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amrit-260/react-selection-highlighter.git"
+    "url": "git+https://github.com/amrit260/react-selection-highlighter.git"
   },
   "scripts": {
     "build": "npm run build:esm && npm run build:cjs",
