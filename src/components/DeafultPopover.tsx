@@ -1,6 +1,6 @@
-import { WrapperChildrenType } from '../types'
+import { PopoverChildrentype } from '../types'
 
-const DefaultPopover: WrapperChildrenType = ({ selection, removeSelection, updateSelection }) => {
+const DefaultPopover: PopoverChildrentype = ({ selection, removeSelection, updateSelection }) => {
   const handleDelete = () => {
     removeSelection(selection)
   }
@@ -26,7 +26,7 @@ const DefaultPopover: WrapperChildrenType = ({ selection, removeSelection, updat
       <div style={{ display: 'flex', minWidth: '150px', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
         <div
           onClick={() => changeColor('bg-red')}
-          style={{ backgroundColor: 'red', cursor: 'pointer', height: '25px', width: '25px', borderRadius: '50%' }}
+          style={{ backgroundColor: '#FF407D', cursor: 'pointer', height: '25px', width: '25px', borderRadius: '50%' }}
         >
           {' '}
         </div>

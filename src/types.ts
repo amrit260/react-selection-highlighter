@@ -5,7 +5,7 @@ export type SelectionType = {
   className?: string
   [Key: string]: any
 }
-export type WrapperChildrenType = React.FC<{
+export type PopoverChildrentype = React.FC<{
   selection: SelectionType
   removeSelection: (slection: SelectionType) => void
   updateSelection: (id: string, updatedSelection: SelectionType) => void

@@ -28,7 +28,7 @@ export const isHighlightable = (range: Range) => {
   return !hasp.includes(true)
 }
 
-import { defaultClassName } from '../constants/constants'
+import { defaultSelectionWrapperClassName } from '../constants/constants'
 import { SelectionType } from '../types'
 
 export const removeHighlightFromDom = (selection: SelectionType) => {
@@ -53,6 +53,6 @@ export const updateDom = (selection: SelectionType) => {
   const element = document.getElementById(selection.id)
 
   if (!element) return
-  element.className = selection.className || defaultClassName
+  element.className = selection.className || defaultSelectionWrapperClassName
   element.setAttribute('style', '')
 }

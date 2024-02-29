@@ -7,19 +7,19 @@ import { generateId } from '../../libs/uid'
 import { getPopoverElement, getSpanElement } from '../../libs/wrapperElements'
 import DefaultPopover from '../DeafultPopover'
 import { useSelections } from '../../hooks/UseSelection'
-import { SelectionType, WrapperChildrenType } from '../../types'
-import { defaultClassName, defaultMinSelectionLength } from '../../constants/constants'
+import { SelectionType, PopoverChildrentype } from '../../types'
+import {  defaultMinSelectionLength, defaultSelectionWrapperClassName } from '../../constants/constants'
 import { addHighlight, isHighlightable } from '../../libs/dom'
 
 interface BaseHighlighterProps {
   htmlString: string
   minSelectionLength?: number
   maxSelectionLength?: number
-  rootClassName?: string
+  className?: string
   // selections?: SelectionType[]
   selectionWrapperClassName?: string
   PopoverClassName?: string
-  PopoverChildren?: WrapperChildrenType
+  PopoverChildren?: PopoverChildrentype
   disablePopover?: boolean
   /**
    * The highlight color for the component.
@@ -35,7 +35,7 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
   disablePopover,
   maxSelectionLength,
   minSelectionLength,
-  rootClassName,
+  className,
   PopoverChildren,
   PopoverClassName,
   selectionWrapperClassName,
@@ -46,10 +46,11 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
   const content = useMemo(() => HTMLReactParser(htmlString), [htmlString])
   const getWrapper = useCallback(
     (selection: SelectionType) => {
-      const span = getSpanElement({ className: selectionWrapperClassName })
+      const span = getSpanElement({ className: selection.className||defaultSelectionWrapperClassName })
       if (!disablePopover) {
         const popover = getPopoverElement({ className: PopoverClassName })
-        span.addEventListener('mouseover', () => {
+        if(!PopoverClassName){
+           span.addEventListener('mouseover', () => {
           popover.style.visibility = 'visible'
           popover.style.opacity = '1'
         })
@@ -57,6 +58,8 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
           popover.style.visibility = 'hidden'
           popover.style.opacity = '0'
         })
+        }
+       
         popover.id = `pop-${selection.id}`
         span.appendChild(popover)
         const root = ReactDOM.createRoot(popover)
@@ -83,7 +86,6 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
       if (onClickHighlight) {
         span.onclick = (e) => onClickHighlight(selection, e)
       }
-      span.className = selection.className || defaultClassName
       span.id = selection.id
 
       return span
@@ -113,6 +115,7 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
       meta: serializeRange(range),
       text: range.toString(),
       id: `selection-${generateId()}`,
+      className:selectionWrapperClassName || defaultSelectionWrapperClassName
     }
     addSelection(newSelection)
   }
@@ -129,7 +132,7 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
   }, [selections, getWrapper])
 
   return (
-    <div onClick={onClick} onMouseUp={handleMouseUp} className={rootClassName}>
+    <div onClick={onClick} onMouseUp={handleMouseUp} className={className}>
       {content}
     </div>
   )
