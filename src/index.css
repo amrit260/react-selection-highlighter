@@ -1,4 +1,36 @@
-.roboto-regular {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    h1 {
+      @apply text-2xl;
+      @apply font-extrabold;
+    }
+    h2 {
+    
+      font-size: 24px; /* Set the font size */
+   font-family: 'Roboto', sans-serif; /* Set the font family */
+   margin: 10px 0; /* Set the margin */
+   color: #333; /* Set the color */
+  
+    }
+    h3 {
+      @apply text-lg;
+      @apply font-extrabold;
+  
+    }
+    a {
+      @apply text-blue-600 underline;
+    }
+  }
+  
+  @layer utilities {
+    .text-balance {
+      text-wrap: balance;
+    }
+  }
+  .roboto-regular {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-style: normal;
