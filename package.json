@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html --dist-dir docs --public-url ."
+    "build": "parcel build src/index.html --dist-dir docs --public-url .",
+    "lint": "eslint \"{**/*,*}.{js,ts,jsx,tsx}\""
   },
   "repository": {
     "type": "git",
@@ -16,6 +17,11 @@
   "devDependencies": {
     "@types/react": "^18.2.60",
     "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "parcel": "^2.11.0",
     "process": "^0.11.10",
     "react": "^18.2.0",
