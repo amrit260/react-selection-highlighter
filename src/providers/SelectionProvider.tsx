@@ -2,7 +2,7 @@ import React from 'react'
 import { Dispatch, SetStateAction, createContext, useState } from 'react'
 import { SelectionType } from '../types'
 
-export const selectionsContext = createContext<{
+export const SelectionsContext = createContext<{
   selections: SelectionType[]
   setSelections: Dispatch<SetStateAction<SelectionType[]>>
 } | null>(null)
@@ -15,5 +15,5 @@ type SelectionProviderType = {
 export const SelectionProvider = ({ children }: SelectionProviderType) => {
   const [selections, setSelections] = useState<SelectionType[]>([])
   const value = { selections, setSelections }
-  return <selectionsContext.Provider value={value}>{children}</selectionsContext.Provider>
+  return <SelectionsContext.Provider value={value}>{children}</SelectionsContext.Provider>
 }

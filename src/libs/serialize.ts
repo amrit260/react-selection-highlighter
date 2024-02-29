@@ -14,7 +14,7 @@ export const deserializeRange = async (range: string) => {
   } catch (e) {
     // TODO handle parsing error
     if (process.env !== 'production') {
-      console.log(e.message)
+      // console.log(e.message)
     }
   }
 

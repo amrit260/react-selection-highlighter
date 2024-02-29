@@ -1,5 +1,5 @@
-/* eslint-disable react/no-deprecated */
-import ReactDOM from 'react-dom'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 import HTMLReactParser from 'html-react-parser/lib/index'
 import { deserializeRange, serializeRange } from '../../libs/serialize'
 import { MouseEventHandler, useCallback, useEffect, useMemo } from 'react'
@@ -59,24 +59,23 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
         })
         popover.id = `pop-${selection.id}`
         span.appendChild(popover)
-
+        const root = ReactDOM.createRoot(popover)
         if (PopoverChildren) {
-          ReactDOM.render(
+          root.render(
             <PopoverChildren
               selection={selection}
               removeSelection={removeSelection}
               updateSelection={updateSelection}
             />,
-            popover,
+          
           )
         } else {
-          ReactDOM.render(
+          root.render(
             <DefaultPopover
               removeSelection={removeSelection}
               selection={selection}
               updateSelection={updateSelection}
             />,
-            popover,
           )
         }
       }

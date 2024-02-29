@@ -1,12 +1,11 @@
 import { useContext } from 'react'
-
-import { selectionsContext } from '../providers/SelectionProvider'
+import { SelectionsContext } from '../providers/SelectionProvider'
 import { SelectionType } from '../types'
 // import { deserializeRange } from '../libs/serialize'
 import { removeHighlightFromDom, updateDom } from '../libs/dom'
 
 export const useSelections = () => {
-  const selectionContext = useContext(selectionsContext)
+  const selectionContext = useContext(SelectionsContext)
   if (!selectionContext) {
     throw new Error('useSelection hook must be used inside selectionProvider')
   }
