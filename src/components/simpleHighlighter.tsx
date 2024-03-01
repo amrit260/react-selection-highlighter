@@ -12,7 +12,7 @@ const SimpleHighlighter = () => {
       <div className="w-7/12">
         <SelectionProvider>
           <Highlighter
-            rootClassName="tracking-wide space-y-5 leading-6"
+            className="tracking-wide space-y-5 leading-6"
             htmlString={text}
           />
         </SelectionProvider>
