@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/react-selection-highlighter/static/css/main.16545157.css",
+    "main.js": "/react-selection-highlighter/static/js/main.5128e8d9.js",
+    "static/js/453.cf1aea1f.chunk.js": "/react-selection-highlighter/static/js/453.cf1aea1f.chunk.js",
+    "index.html": "/react-selection-highlighter/index.html",
+    "main.16545157.css.map": "/react-selection-highlighter/static/css/main.16545157.css.map",
+    "main.5128e8d9.js.map": "/react-selection-highlighter/static/js/main.5128e8d9.js.map",
+    "453.cf1aea1f.chunk.js.map": "/react-selection-highlighter/static/js/453.cf1aea1f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.16545157.css",
+    "static/js/main.5128e8d9.js"
+  ]
+}
