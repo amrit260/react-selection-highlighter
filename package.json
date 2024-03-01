@@ -1,6 +1,6 @@
 {
   "name": "react-selection-highlighter",
-  "version": "1.0.9",
+  "version": "1.0.11",
   "description": "React-selection-highlighter lets users highlight text in your site, add annotations, and save it all to your backend in a breeze.",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
