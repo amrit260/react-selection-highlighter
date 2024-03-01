@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import {
   SelectionType,
   PopoverChildrentype,
-  useSelections,
 } from "react-selection-highlighter";
 import { defaultSelectionWrapperClassName } from "react-selection-highlighter";
 import { cn } from "../lib/utils";
@@ -40,17 +39,15 @@ const CustomPopover: PopoverChildrentype = ({
     removeSelection(selection);
   };
   // add to localstorage (selection in state is alredy added while user selects text)
-  const handleSave = () => {
+  const handleSave = (dat?: SelectionType) => {
     const selections = getSavedSelections();
+    const newSel = dat || selection;
     const index = selections.findIndex((item) => item.id === selection.id);
     if (index !== -1) {
       selections.splice(index, 1);
     }
 
-    localStorage.setItem(
-      "selections",
-      JSON.stringify([...selections, selection])
-    );
+    localStorage.setItem("selections", JSON.stringify([...selections, newSel]));
 
     notify();
   };
@@ -65,8 +62,10 @@ const CustomPopover: PopoverChildrentype = ({
   };
 
   const addNote = () => {
-    updateSelection(selection.id, { ...selection, note });
-    handleSave();
+    const newSelection = { ...selection, note };
+    handleSave(newSelection);
+    updateSelection(selection.id, newSelection);
+    toggleInput();
   };
 
   return (
@@ -101,7 +100,7 @@ const CustomPopover: PopoverChildrentype = ({
         </div>
 
         <div
-          onClick={handleSave}
+          onClick={() => handleSave()}
           className=" text-[24px] font-bold cursor-pointer"
         >
           {" "}

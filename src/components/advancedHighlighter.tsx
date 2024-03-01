@@ -4,13 +4,13 @@ import {
   useSelections,
   SelectionType,
 } from "react-selection-highlighter";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 import { text } from "../lib/text";
 import CustomPopover from "./customPopover";
 
 const AdvancedHighlighter = () => {
-  const { setSelections, selections } = useSelections();
+  const { setSelections } = useSelections();
 
   useEffect(() => {
     const data = localStorage.getItem("selections");
@@ -18,9 +18,8 @@ const AdvancedHighlighter = () => {
       const parsedSelections = JSON.parse(data) as SelectionType[];
       setSelections(parsedSelections);
     }
-  }, []);
+  }, [setSelections]);
 
-  console.log(selections);
   return (
     <div className="w-full  flex flex-col items-center justify-center">
       <Toaster />
