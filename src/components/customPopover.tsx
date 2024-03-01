@@ -1,12 +1,14 @@
-import { Save, Trash } from "lucide-react";
+import { Bold, Edit, Plus, Save, Trash } from "lucide-react";
 import toast from "react-hot-toast";
 
 import {
   SelectionType,
   PopoverChildrentype,
+  useSelections,
 } from "react-selection-highlighter";
 import { defaultSelectionWrapperClassName } from "react-selection-highlighter";
 import { cn } from "../lib/utils";
+import { useState } from "react";
 const notify = () =>
   toast.success("Saved locally. Refresh page to see effect.");
 
@@ -23,6 +25,9 @@ const CustomPopover: PopoverChildrentype = ({
   removeSelection,
   updateSelection,
 }) => {
+  const [showInput, setShowInput] = useState(false);
+  const [note, setNote] = useState(selection.note || "");
+  const toggleInput = () => setShowInput(!showInput);
   const handleDelete = () => {
     const selections = getSavedSelections();
     const index = selections.findIndex((item) => item.id === selection.id);
@@ -59,18 +64,22 @@ const CustomPopover: PopoverChildrentype = ({
     });
   };
 
+  const addNote = () => {
+    updateSelection(selection.id, { ...selection, note });
+    handleSave();
+  };
+
   return (
     <div className="p-4 shadow-lg  bg-white rounded-md flex flex-col items-center justify-center gap-2">
       <p style={{ fontSize: "12px" }}>
-        {selection.text.length} characters selected
+        {note ? note : `${selection.text.length} characters selected`}
       </p>
       <div className="flex w-full min-w-48 gap-3 items-center justify-center">
         <div
-          onClick={handleSave}
-          className=" text-[24px] font-bold cursor-pointer"
+          onClick={() => changeColor("font-bold bg-white")}
+          className=" cursor-pointer h-6 w-6 rounded-full"
         >
-          {" "}
-          <Save />
+          <Bold className="font-extrabold" />{" "}
         </div>
         <div
           onClick={() => changeColor("bg-rose-500 ")}
@@ -92,11 +101,36 @@ const CustomPopover: PopoverChildrentype = ({
         </div>
 
         <div
+          onClick={handleSave}
+          className=" text-[24px] font-bold cursor-pointer"
+        >
+          {" "}
+          <Save />
+        </div>
+        <div className="text-blue-700  text-[24px] font-bold cursor-pointer">
+          {" "}
+          <Edit onClick={toggleInput} className="font-bold" />
+          {showInput && (
+            <div className="absolute flex gap-x-4 p-4 min-w-full  max-w-full bg-white mt-1  left-0">
+              <input
+                placeholder="add note"
+                onChange={(e) => setNote(e.target.value)}
+                value={note}
+                className="w-5/6 text-sm font-normal text-black p-1 bg-gray-50"
+              />{" "}
+              <button onClick={addNote} className="p-1  w-1/6">
+                <Plus />{" "}
+              </button>
+            </div>
+          )}
+        </div>
+
+        <div
           onClick={handleDelete}
           className="text-red-700 text-[24px] font-bold cursor-pointer"
         >
           {" "}
-          <Trash />
+          <Trash className="font-bold" />
         </div>
       </div>
     </div>
