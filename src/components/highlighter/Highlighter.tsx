@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import HTMLReactParser from 'html-react-parser/lib/index'
 import { deserializeRange, serializeRange } from '../../libs/serialize'
@@ -43,13 +43,14 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
   // selections,
 }) => {
   const { selections, addSelection, removeSelection, updateSelection } = useSelections()
+  const popoverRoots = useRef<Record<string,ReactDOM.Root>>({})
   const content = useMemo(() => HTMLReactParser(htmlString), [htmlString])
   const getWrapper = useCallback(
     (selection: SelectionType) => {
       const span = getSpanElement({ className: selection.className||defaultSelectionWrapperClassName })
       if (!disablePopover) {
         const popover = getPopoverElement({ className: PopoverClassName })
-        if(!PopoverClassName){
+        if(!PopoverClassName ){
            span.addEventListener('mouseover', () => {
           popover.style.visibility = 'visible'
           popover.style.opacity = '1'
@@ -59,28 +60,11 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
           popover.style.opacity = '0'
         })
         }
-       
         popover.id = `pop-${selection.id}`
         span.appendChild(popover)
         const root = ReactDOM.createRoot(popover)
-        if (PopoverChildren) {
-          root.render(
-            <PopoverChildren
-              selection={selection}
-              removeSelection={removeSelection}
-              updateSelection={updateSelection}
-            />,
-          
-          )
-        } else {
-          root.render(
-            <DefaultPopover
-              removeSelection={removeSelection}
-              selection={selection}
-              updateSelection={updateSelection}
-            />,
-          )
-        }
+        popoverRoots.current[selection.id] = root
+       
       }
 
       if (onClickHighlight) {
@@ -127,10 +111,33 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
         if (range) {
           addHighlight(range, getWrapper(item))
         }
-      })
-    }
-  }, [selections, getWrapper])
+        if (PopoverChildren) {
+          popoverRoots.current[item.id]?.render(
+            <PopoverChildren
+              selection={item}
+              removeSelection={removeSelection}
+              updateSelection={updateSelection}
+            />,
+          
+          )
+        } else {
+          popoverRoots.current[item.id]?.render(
+            <DefaultPopover
+              removeSelection={removeSelection}
+              selection={item}
+              updateSelection={updateSelection}
+            />,
+          )
+        }
 
+      })
+     
+    
+    }   
+   return ()=>{
+        Object.keys(popoverRoots.current).forEach(item=>()=>popoverRoots.current[item]?.unmount())
+      } 
+  }, [selections, getWrapper])
   return (
     <div onClick={onClick} onMouseUp={handleMouseUp} className={className}>
       {content}

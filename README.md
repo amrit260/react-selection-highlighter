@@ -104,7 +104,11 @@ To quickly get started with React Selection Highlighter, follow these steps:
 | `disablePopover`           | `false`             | Optional          | Boolean flag to disable the popover functionality.                                                                          |
 | `onClickHighlight`         |                     | Optional          | Function to handle click events on highlighted text.                                                                        |
 | `onClick`                  |                     | Optional          | Function to handle click events on the root div element.                                                                    |
-
+<div align="center">
+        <a href="#" title="Customization">
+            <img src="https://raw.githubusercontent.com/amrit260/react-selection-highlighter/main/example.png" alt="demo" />
+        </a>
+</div>
 
 
 

@@ -1,3 +1,4 @@
+import { defaultSelectionWrapperClassName } from '../constants/constants'
 import { PopoverChildrentype } from '../types'
 
 const DefaultPopover: PopoverChildrentype = ({ selection, removeSelection, updateSelection }) => {
@@ -6,7 +7,17 @@ const DefaultPopover: PopoverChildrentype = ({ selection, removeSelection, updat
   }
 
   const changeColor = (colorClassName: string) => {
-    updateSelection(selection.id, { ...selection, className: `relative select-none ${colorClassName}` })
+
+    const classes = selection.className || defaultSelectionWrapperClassName
+    const classArr  = classes.split(' ')
+    const colorIndex = classArr.findIndex(item=>item.startsWith('bg-'))
+  
+    if(colorIndex!==-1){
+      classArr.splice(colorIndex,1)
+    }
+    classArr.push(colorClassName)
+
+    updateSelection(selection.id, { ...selection, className: classArr.join(' ') })
   }
 
   return (
