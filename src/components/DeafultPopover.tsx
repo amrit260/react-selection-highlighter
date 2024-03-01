@@ -7,13 +7,12 @@ const DefaultPopover: PopoverChildrentype = ({ selection, removeSelection, updat
   }
 
   const changeColor = (colorClassName: string) => {
-
     const classes = selection.className || defaultSelectionWrapperClassName
-    const classArr  = classes.split(' ')
-    const colorIndex = classArr.findIndex(item=>item.startsWith('bg-'))
-  
-    if(colorIndex!==-1){
-      classArr.splice(colorIndex,1)
+    const classArr = classes.split(' ')
+    const colorIndex = classArr.findIndex((item) => item.startsWith('bg-'))
+
+    if (colorIndex !== -1) {
+      classArr.splice(colorIndex, 1)
     }
     classArr.push(colorClassName)
 

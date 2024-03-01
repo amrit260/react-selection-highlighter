@@ -8,7 +8,7 @@ import { getPopoverElement, getSpanElement } from '../../libs/wrapperElements'
 import DefaultPopover from '../DeafultPopover'
 import { useSelections } from '../../hooks/UseSelection'
 import { SelectionType, PopoverChildrentype } from '../../types'
-import {  defaultMinSelectionLength, defaultSelectionWrapperClassName } from '../../constants/constants'
+import { defaultMinSelectionLength, defaultSelectionWrapperClassName } from '../../constants/constants'
 import { addHighlight, isHighlightable } from '../../libs/dom'
 
 interface BaseHighlighterProps {
@@ -43,28 +43,27 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
   // selections,
 }) => {
   const { selections, addSelection, removeSelection, updateSelection } = useSelections()
-  const popoverRoots = useRef<Record<string,ReactDOM.Root>>({})
+  const popoverRoots = useRef<Record<string, ReactDOM.Root>>({})
   const content = useMemo(() => HTMLReactParser(htmlString), [htmlString])
   const getWrapper = useCallback(
     (selection: SelectionType) => {
-      const span = getSpanElement({ className: selection.className||defaultSelectionWrapperClassName })
+      const span = getSpanElement({ className: selection.className || defaultSelectionWrapperClassName })
       if (!disablePopover) {
         const popover = getPopoverElement({ className: PopoverClassName })
-        if(!PopoverClassName ){
-           span.addEventListener('mouseover', () => {
-          popover.style.visibility = 'visible'
-          popover.style.opacity = '1'
-        })
-        span.addEventListener('mouseout', () => {
-          popover.style.visibility = 'hidden'
-          popover.style.opacity = '0'
-        })
+        if (!PopoverClassName) {
+          span.addEventListener('mouseover', () => {
+            popover.style.visibility = 'visible'
+            popover.style.opacity = '1'
+          })
+          span.addEventListener('mouseout', () => {
+            popover.style.visibility = 'hidden'
+            popover.style.opacity = '0'
+          })
         }
         popover.id = `pop-${selection.id}`
         span.appendChild(popover)
         const root = ReactDOM.createRoot(popover)
         popoverRoots.current[selection.id] = root
-       
       }
 
       if (onClickHighlight) {
@@ -74,15 +73,7 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
 
       return span
     },
-    [
-      selectionWrapperClassName,
-      PopoverClassName,
-      disablePopover,
-      onClickHighlight,
-      PopoverChildren,
-      removeSelection,
-      updateSelection,
-    ],
+    [PopoverClassName, disablePopover, onClickHighlight],
   )
 
   const handleMouseUp = () => {
@@ -99,12 +90,13 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
       meta: serializeRange(range),
       text: range.toString(),
       id: `selection-${generateId()}`,
-      className:selectionWrapperClassName || defaultSelectionWrapperClassName
+      className: selectionWrapperClassName || defaultSelectionWrapperClassName,
     }
     addSelection(newSelection)
   }
 
   useEffect(() => {
+    const currentRefs = popoverRoots.current
     if (selections && selections.length) {
       selections.forEach(async (item) => {
         const range = await deserializeRange(item.meta)
@@ -113,31 +105,19 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
         }
         if (PopoverChildren) {
           popoverRoots.current[item.id]?.render(
-            <PopoverChildren
-              selection={item}
-              removeSelection={removeSelection}
-              updateSelection={updateSelection}
-            />,
-          
+            <PopoverChildren selection={item} removeSelection={removeSelection} updateSelection={updateSelection} />,
           )
         } else {
           popoverRoots.current[item.id]?.render(
-            <DefaultPopover
-              removeSelection={removeSelection}
-              selection={item}
-              updateSelection={updateSelection}
-            />,
+            <DefaultPopover removeSelection={removeSelection} selection={item} updateSelection={updateSelection} />,
           )
         }
-
       })
-     
-    
-    }   
-   return ()=>{
-        Object.keys(popoverRoots.current).forEach(item=>()=>popoverRoots.current[item]?.unmount())
-      } 
-  }, [selections, getWrapper])
+    }
+    return () => {
+      Object.keys(currentRefs).forEach((item) => () => currentRefs[item]?.unmount())
+    }
+  }, [selections, getWrapper, PopoverChildren, removeSelection, updateSelection])
   return (
     <div onClick={onClick} onMouseUp={handleMouseUp} className={className}>
       {content}
