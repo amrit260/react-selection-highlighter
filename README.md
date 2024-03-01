@@ -100,7 +100,7 @@ To quickly get started with React Selection Highlighter, follow these steps:
 | `className`            |                     | Optional          | Additional class name for the root div element.                                                                             |
 | `PopoverChildren`          |         Default popover component            | Optional          | Custom component to render inside the popover.                                                                             |
 | `PopoverClassName`         |                     | Optional          | Class name for the popover element.                                                                                         |
-| `defaultSelectionWrapperClassName`|         `bg-lightgreen select-none relative`            | Optional          | Class name for the selection wrapper element.                                                                               |
+| `selectionWrapperClassName`|         `bg-lightgreen select-none relative`            | Optional          | Class name for the selection wrapper element.                                                                               |
 | `disablePopover`           | `false`             | Optional          | Boolean flag to disable the popover functionality.                                                                          |
 | `onClickHighlight`         |                     | Optional          | Function to handle click events on highlighted text.                                                                        |
 | `onClick`                  |                     | Optional          | Function to handle click events on the root div element.                                                                    |
