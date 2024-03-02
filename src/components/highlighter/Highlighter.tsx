@@ -1,8 +1,7 @@
-import React, { useRef } from 'react'
+import React, { useMemo, useRef, MouseEventHandler, useCallback, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import HTMLReactParser from 'html-react-parser/lib/index'
 import { deserializeRange, serializeRange } from '../../libs/serialize'
-import { MouseEventHandler, useCallback, useEffect, useMemo } from 'react'
 import { generateId } from '../../libs/uid'
 import { getPopoverElement, getSpanElement } from '../../libs/wrapperElements'
 import DefaultPopover from '../DeafultPopover'
@@ -45,25 +44,28 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
   const { selections, addSelection, removeSelection, updateSelection } = useSelections()
   const popoverRoots = useRef<Record<string, ReactDOM.Root>>({})
   const content = useMemo(() => HTMLReactParser(htmlString), [htmlString])
+
   const getWrapper = useCallback(
     (selection: SelectionType) => {
       const span = getSpanElement({ className: selection.className || defaultSelectionWrapperClassName })
       if (!disablePopover) {
         const popover = getPopoverElement({ className: PopoverClassName })
         if (!PopoverClassName) {
-          span.addEventListener('mouseover', () => {
+          span.onmouseover = () => {
             popover.style.visibility = 'visible'
             popover.style.opacity = '1'
-          })
-          span.addEventListener('mouseout', () => {
+          }
+          span.onmouseout = () => {
             popover.style.visibility = 'hidden'
             popover.style.opacity = '0'
-          })
+          }
         }
         popover.id = `pop-${selection.id}`
         span.appendChild(popover)
         const root = ReactDOM.createRoot(popover)
-        popoverRoots.current[selection.id] = root
+        if (!popoverRoots.current[selection.id]) {
+          popoverRoots.current[selection.id] = root
+        }
       }
 
       if (onClickHighlight) {
@@ -76,7 +78,8 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
     [PopoverClassName, disablePopover, onClickHighlight],
   )
 
-  const handleMouseUp = () => {
+  const handleMouseUp: MouseEventHandler<HTMLDivElement> = () => {
+    // e.stopPropagation()
     const selection = window.getSelection()
     if (!selection) return
     if (!minSelectionLength) {
@@ -104,18 +107,15 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
           addHighlight(range, getWrapper(item))
         }
         if (PopoverChildren) {
-          popoverRoots.current[item.id]?.render(
+          currentRefs[item.id]?.render(
             <PopoverChildren selection={item} removeSelection={removeSelection} updateSelection={updateSelection} />,
           )
         } else {
-          popoverRoots.current[item.id]?.render(
+          currentRefs[item.id]?.render(
             <DefaultPopover removeSelection={removeSelection} selection={item} updateSelection={updateSelection} />,
           )
         }
       })
-    }
-    return () => {
-      Object.keys(currentRefs).forEach((item) => () => currentRefs[item]?.unmount())
     }
   }, [selections, getWrapper, PopoverChildren, removeSelection, updateSelection])
   return (

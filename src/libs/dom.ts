@@ -38,6 +38,8 @@ export const removeHighlightFromDom = (selection: SelectionType) => {
   if (!element) return
   element.className = ''
   element.setAttribute('style', '')
+  element.onmouseover = null
+  element.onmouseout = null
   // const newSpan = document.createElement('span')
   // while (element.firstChild) {
   //   newSpan.appendChild(element.firstChild)

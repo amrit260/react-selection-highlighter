@@ -88,18 +88,18 @@ To quickly get started with React Selection Highlighter, follow these steps:
 
 ### Props
 
-| Prop                        | Default Value                        | Optional/Required | Description                                                     |
-| --------------------------- | ------------------------------------ | ----------------- | --------------------------------------------------------------- |
-| `htmlString`                |                                      | Required          | The HTML content as a string.                                   |
-| `minSelectionLength`        | 10                                   | Optional          | Minimum length of the text selection required for highlighting. |
-| `maxSelectionLength`        |                                      | Optional          | Maximum length of the text selection allowed for highlighting.  |
-| `className`                 |                                      | Optional          | Additional class name for the root div element.                 |
-| `PopoverChildren`           | Default popover component            | Optional          | Custom component to render inside the popover.                  |
-| `PopoverClassName`          |                                      | Optional          | Class name for the popover element.                             |
-| `selectionWrapperClassName` | `bg-lightgreen select-none relative` | Optional          | Class name for the selection wrapper element.                   |
-| `disablePopover`            | `false`                              | Optional          | Boolean flag to disable the popover functionality.              |
-| `onClickHighlight`          |                                      | Optional          | Function to handle click events on highlighted text.            |
-| `onClick`                   |                                      | Optional          | Function to handle click events on the root div element.        |
+| Prop                        | Default Value                        | Required | Description                                                     |
+| --------------------------- | ------------------------------------ | -------- | --------------------------------------------------------------- |
+| `htmlString`                |                                      | true     | The HTML content as a string.                                   |
+| `minSelectionLength`        | 10                                   |          | Minimum length of the text selection required for highlighting. |
+| `maxSelectionLength`        |                                      |          | Maximum length of the text selection allowed for highlighting.  |
+| `className`                 |                                      |          | Additional class name for the root div element.                 |
+| `PopoverChildren`           | Default popover component            |          | Custom component to render inside the popover.                  |
+| `PopoverClassName`          |                                      |          | Class name for the popover element.                             |
+| `selectionWrapperClassName` | `bg-lightgreen select-none relative` |          | Class name for the selection wrapper element.                   |
+| `disablePopover`            | `false`                              |          | Boolean flag to disable the popover functionality.              |
+| `onClickHighlight`          |                                      |          | Function to handle click events on highlighted text.            |
+| `onClick`                   |                                      |          | Function to handle click events on the root div element.        |
 
 <div align="center">
         <a href="#" title="Customization">
@@ -109,9 +109,9 @@ To quickly get started with React Selection Highlighter, follow these steps:
 
 ## Customization
 
-You have the flexibility to customize the appearance and behavior of the `Highlighter` component by passing additional props. It's important to note that when providing a custom class name, all default class names for respective elements will be removed.
+You have the flexibility to fully customize the appearance and behavior of the `Highlighter` component by passing additional props.
 
-For instance, to customize the highlighting behavior and appearance, you can provide props such as `minSelectionLength`, `maxSelectionLength`, `PopoverClassName`, `PopoverChildren`, and `disablePopover`.
+For instance, to customize the highlighting behavior and appearance, you can provide props such as `minSelectionLength`, `maxSelectionLength`, `PopoverClassName`, `PopoverChildren`, and `disablePopover`.It's important to note that when providing a custom class name, all default class names for respective elements will be removed.
 
 ## useSelections Hook
 
