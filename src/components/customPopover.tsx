@@ -1,18 +1,17 @@
-import { Bold, Edit, Plus, Save, Trash } from "lucide-react";
-import toast from "react-hot-toast";
+import { Bold, Edit, Plus, Save, Trash } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 import {
   SelectionType,
-  PopoverChildrentype,
-} from "react-selection-highlighter";
-import { defaultSelectionWrapperClassName } from "react-selection-highlighter";
-import { cn } from "../lib/utils";
-import { useState } from "react";
-const notify = () =>
-  toast.success("Saved locally. Refresh page to see effect.");
+  PopoverChildrentype
+} from 'react-selection-highlighter';
+import { defaultSelectionWrapperClassName } from 'react-selection-highlighter';
+import { cn } from '../lib/utils';
+import { useState } from 'react';
+const notify = () => toast.success('saved');
 
 const getSavedSelections = () => {
-  const dat = localStorage.getItem("selections");
+  const dat = localStorage.getItem('selections');
   if (dat) {
     const selections = JSON.parse(dat) as SelectionType[];
     return selections;
@@ -22,10 +21,10 @@ const getSavedSelections = () => {
 const CustomPopover: PopoverChildrentype = ({
   selection,
   removeSelection,
-  updateSelection,
+  updateSelection
 }) => {
   const [showInput, setShowInput] = useState(false);
-  const [note, setNote] = useState(selection.note || "");
+  const [note, setNote] = useState(selection.note || '');
   const toggleInput = () => setShowInput(!showInput);
   const handleDelete = () => {
     const selections = getSavedSelections();
@@ -33,7 +32,7 @@ const CustomPopover: PopoverChildrentype = ({
 
     if (index !== -1) {
       selections.splice(index, 1);
-      localStorage.setItem("selections", JSON.stringify(selections));
+      localStorage.setItem('selections', JSON.stringify(selections));
     }
 
     removeSelection(selection);
@@ -47,7 +46,7 @@ const CustomPopover: PopoverChildrentype = ({
       selections.splice(index, 1);
     }
 
-    localStorage.setItem("selections", JSON.stringify([...selections, newSel]));
+    localStorage.setItem('selections', JSON.stringify([...selections, newSel]));
 
     notify();
   };
@@ -57,7 +56,7 @@ const CustomPopover: PopoverChildrentype = ({
 
     updateSelection(selection.id, {
       ...selection,
-      className: cn(className, colorClassName),
+      className: cn(className, colorClassName)
     });
   };
 
@@ -70,44 +69,44 @@ const CustomPopover: PopoverChildrentype = ({
 
   return (
     <div className="p-4 shadow-lg  bg-white rounded-md flex flex-col items-center justify-center gap-2">
-      <p style={{ fontSize: "12px" }}>
+      <p style={{ fontSize: '12px' }}>
         {note ? note : `${selection.text.length} characters selected`}
       </p>
       <div className="flex w-full min-w-48 gap-3 items-center justify-center">
         <div
-          onClick={() => changeColor("font-bold bg-white")}
+          onClick={() => changeColor('font-bold bg-white')}
           className=" cursor-pointer h-6 w-6 rounded-full"
         >
-          <Bold className="font-extrabold" />{" "}
+          <Bold className="font-extrabold" />{' '}
         </div>
         <div
-          onClick={() => changeColor("bg-rose-500 ")}
+          onClick={() => changeColor('bg-rose-500 ')}
           className="bg-rose-500 cursor-pointer h-6 w-6 rounded-full"
         >
-          {" "}
+          {' '}
         </div>
         <div
-          onClick={() => changeColor("bg-[#F5DD61]")}
+          onClick={() => changeColor('bg-[#F5DD61]')}
           className="bg-[#F5DD61] cursor-pointer h-6 w-6 rounded-full"
         >
-          {" "}
+          {' '}
         </div>
         <div
-          onClick={() => changeColor("bg-[#59D5E0]")}
+          onClick={() => changeColor('bg-[#59D5E0]')}
           className="bg-[#59D5E0] cursor-pointer h-6 w-6 rounded-full"
         >
-          {" "}
+          {' '}
         </div>
 
         <div
           onClick={() => handleSave()}
           className=" text-[24px] font-bold cursor-pointer"
         >
-          {" "}
+          {' '}
           <Save />
         </div>
         <div className="text-blue-700  text-[24px] font-bold cursor-pointer">
-          {" "}
+          {' '}
           <Edit onClick={toggleInput} className="font-bold" />
           {showInput && (
             <div className="absolute flex gap-x-4 p-4 min-w-full  max-w-full bg-white mt-1  left-0">
@@ -116,9 +115,9 @@ const CustomPopover: PopoverChildrentype = ({
                 onChange={(e) => setNote(e.target.value)}
                 value={note}
                 className="w-5/6 text-sm font-normal text-black p-1 bg-gray-50"
-              />{" "}
+              />{' '}
               <button onClick={addNote} className="p-1  w-1/6">
-                <Plus />{" "}
+                <Plus />{' '}
               </button>
             </div>
           )}
@@ -128,7 +127,7 @@ const CustomPopover: PopoverChildrentype = ({
           onClick={handleDelete}
           className="text-red-700 text-[24px] font-bold cursor-pointer"
         >
-          {" "}
+          {' '}
           <Trash className="font-bold" />
         </div>
       </div>
