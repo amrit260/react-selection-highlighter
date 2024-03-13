@@ -40,7 +40,7 @@ To quickly get started with React Selection Highlighter, follow these steps:
 3. Define the text or HTML content you want to highlight:
 
    ```jsx
-   const text = `<h2 style="text-align: start" data-pm-slice="1 1 []"><strong>The Enduring Allure of the Cat</strong></h2><p style="text-align: start">The cat, with its enigmatic gaze and independent spirit, <strong>has captivated humans for millennia. From their sleek, agile bodies to their playful personalities, these fascinating creatures have found a unique place in</strong> our homes and hearts. Beyond their undeniable cuteness, cats offer companionship, pest control, and even therapeutic benefits, making them a popular choice for pet owners worldwide.</p><p style="text-align: start">Cats, scientifically known as Felis catus, belong to the Felidae family, sharing common ancestry with majestic predators like lions and tigers. Despite their wild cousins, domestic cats have evolved alongside humans for <strong>over 10,000 years</strong>, forming a mutually beneficial relationship. Their keen eyesight and sharp instincts made them adept hunters, controlling rodent populations that threatened food stores in early human settlements. This partnership laid the foundation for the domestication of cats, transitioning them from hunters to companions.</p><p style="text-align: start">The distinctive physical characteristics of the cat contribute to its allure. Their <a target="_blank" rel="noopener noreferrer nofollow" href="https://en.wikipedia.org/wiki/Cat">soft fur,</a> available in a vast array of colors and patterns, begs to be stroked. Their expressive eyes, often described as mesmerizing, convey a range of emotions from contentment to curiosity. Their agile bodies, capable of leaping great <strong>distances and balancing precariously on narrow</strong> ledges, embody grace and a sense of adventure.</p>`
+   const text = `<h2 style="text-align: start" data-pm-slice="1 1 []"><strong>The Enduring Allure of the Cat</strong></h2><p style="text-align: start">The cat, with its enigmatic gaze and independent spirit, has captivated humans for millennia. From their sleek, agile bodies to their playful personalities, these fascinating creatures have found a unique place in our homes and hearts. Beyond their undeniable cuteness, cats offer companionship, pest control, and even therapeutic benefits, making them a popular choice for pet owners worldwide.</p><p style="text-align: start">Cats, scientifically known as Felis catus, belong to the Felidae family, sharing common ancestry with majestic predators like lions and tigers. Despite their wild cousins, domestic cats have evolved alongside humans for <strong>over 10,000 years</strong>, forming a mutually beneficial relationship. Their keen eyesight and sharp instincts made them adept hunters, controlling rodent populations that threatened food stores in early human settlements. This partnership laid the foundation for the domestication of cats, transitioning them from hunters to companions.</p><p style="text-align: start">The distinctive physical characteristics of the cat contribute to its allure. Their <a target="_blank" rel="noopener noreferrer nofollow" href="https://en.wikipedia.org/wiki/Cat">soft fur,</a> available in a vast array of colors and patterns, begs to be stroked. Their expressive eyes, often described as mesmerizing, convey a range of emotions from contentment to curiosity. Their agile bodies, capable of leaping great <strong>distances and balancing precariously on narrow</strong> ledges, embody grace and a sense of adventure.</p>`
    ```
 
 4. Add default classnames to your css file. If you are providing your own classes make sure you have styles for those classes.
@@ -48,9 +48,6 @@ To quickly get started with React Selection Highlighter, follow these steps:
    ```css
    .relative {
      position: relative;
-   }
-   .body {
-     background-color: black;
    }
 
    .bg-lightgreen {
@@ -120,7 +117,7 @@ The `useSelections` custom hook provides powerful functionality for managing sel
 For example, you can dynamically update the className of specific selections using this hook. Additionally, you have the flexibility to store selections locally using browser storage mechanisms or persist them to a backend server for long-term storage and retrieval.
 
 ```js
-const { removeSelection, selections, setSelections, updateSelection } = useSelections()
+const { selections, setSelections, updateSelection, removeSelections } = useSelections()
 ```
 
 ## Contributing

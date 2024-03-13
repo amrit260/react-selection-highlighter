@@ -1,3 +1,4 @@
+//@ts-ignore
 import { fromRange, toRange } from 'xpath-range'
 import { XpathType } from '../types'
 
