@@ -1,6 +1,5 @@
-import React, { useMemo, useRef, MouseEventHandler, useCallback, useEffect } from 'react'
+import React, { useRef, MouseEventHandler, useCallback, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
-import HTMLReactParser from 'html-react-parser/lib/index'
 import { deserializeRange, serializeRange } from '../../libs/serialize'
 import { generateId } from '../../libs/uid'
 import { getPopoverElement, getSpanElement } from '../../libs/wrapperElements'
@@ -9,6 +8,8 @@ import { useSelections } from '../../hooks/UseSelection'
 import { SelectionType, PopoverChildrentype } from '../../types'
 import { defaultMinSelectionLength, defaultSelectionWrapperClassName } from '../../constants/constants'
 import { addHighlight, isHighlightable } from '../../libs/dom'
+import { getOriginalRange, getRangeStartEndContainerText } from '../../libs/createRange'
+import { sortByPositionAndOffset } from '../../libs/sort'
 
 interface BaseHighlighterProps {
   htmlString: string
@@ -42,8 +43,11 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
   // selections,
 }) => {
   const { selections, addSelection, removeSelection, updateSelection } = useSelections()
-  const popoverRoots = useRef<Record<string, ReactDOM.Root>>({})
-  const content = useMemo(() => HTMLReactParser(htmlString), [htmlString])
+  const rootRef = useRef<HTMLDivElement | null>(null)
+  const tempRef = useRef<HTMLDivElement | null>(null)
+  const div = document.createElement('div')
+  tempRef.current = div
+  tempRef.current.innerHTML = htmlString
 
   const getWrapper = useCallback(
     (selection: SelectionType) => {
@@ -62,10 +66,6 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
         }
         popover.id = `pop-${selection.id}`
         span.appendChild(popover)
-        const root = ReactDOM.createRoot(popover)
-        if (!popoverRoots.current[selection.id]) {
-          popoverRoots.current[selection.id] = root
-        }
       }
 
       if (onClickHighlight) {
@@ -81,6 +81,7 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
   const handleMouseUp: MouseEventHandler<HTMLDivElement> = () => {
     // e.stopPropagation()
     const selection = window.getSelection()
+
     if (!selection) return
     if (!minSelectionLength) {
       minSelectionLength = defaultMinSelectionLength
@@ -89,38 +90,49 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
     if (maxSelectionLength && selection.toString().length > maxSelectionLength) return
     const range = selection.getRangeAt(0)
     if (!isHighlightable(range)) return
+    const expRange = getOriginalRange(range, tempRef.current!)
+    if (!expRange) return
+    const { startContainerText, endContainerText } = getRangeStartEndContainerText(range)
     const newSelection: SelectionType = {
-      meta: serializeRange(range),
+      meta: serializeRange(expRange, tempRef.current!),
       text: range.toString(),
       id: `selection-${generateId()}`,
       className: selectionWrapperClassName || defaultSelectionWrapperClassName,
+      startContainerText,
+      endContainerText,
     }
+
     addSelection(newSelection)
   }
 
   useEffect(() => {
-    const currentRefs = popoverRoots.current
-    if (selections && selections.length) {
-      selections.forEach(async (item) => {
-        const range = await deserializeRange(item.meta)
+    const sortedSelections = sortByPositionAndOffset(selections)
+    if (!rootRef.current) return
+    rootRef.current.innerHTML = ''
+    rootRef.current.innerHTML = htmlString
+
+    if (sortedSelections && sortedSelections.length) {
+      for (let i = 0; i < sortedSelections.length; i++) {
+        const item = sortedSelections[i] as SelectionType
+        const range = deserializeRange(item.meta, rootRef.current!)
         if (range) {
           addHighlight(range, getWrapper(item))
         }
+        const popoverRoot = document.getElementById(`pop-${item.id}`)
+        if (!popoverRoot) return
+        const root = ReactDOM.createRoot(popoverRoot)
+
         if (PopoverChildren) {
-          currentRefs[item.id]?.render(
+          root.render(
             <PopoverChildren selection={item} removeSelection={removeSelection} updateSelection={updateSelection} />,
           )
         } else {
-          currentRefs[item.id]?.render(
+          root.render(
             <DefaultPopover removeSelection={removeSelection} selection={item} updateSelection={updateSelection} />,
           )
         }
-      })
+      }
     }
-  }, [selections, getWrapper, PopoverChildren, removeSelection, updateSelection])
-  return (
-    <div onClick={onClick} onMouseUp={handleMouseUp} className={className}>
-      {content}
-    </div>
-  )
+  }, [selections, getWrapper, PopoverChildren, htmlString, removeSelection, updateSelection])
+  return <div ref={rootRef} id={'highlighter-root'} onClick={onClick} onMouseUp={handleMouseUp} className={className} />
 }

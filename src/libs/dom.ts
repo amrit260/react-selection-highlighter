@@ -18,6 +18,10 @@ export const addHighlight = (range: Range, element: HTMLElement) => {
 export const isHighlightable = (range: Range) => {
   const contents = range.cloneContents()
   const hasp: boolean[] = []
+  // if (contents.childNodes.length > 0 && contents.childNodes.length % 2 === 0) {
+  //   console.log(contents)
+  //   return false
+  // }
   contents.childNodes.forEach((item) => {
     if (item.nodeName === 'P') {
       hasp.push(true)
@@ -26,35 +30,4 @@ export const isHighlightable = (range: Range) => {
     }
   })
   return !hasp.includes(true)
-}
-
-import { defaultSelectionWrapperClassName } from '../constants/constants'
-import { SelectionType } from '../types'
-
-export const removeHighlightFromDom = (selection: SelectionType) => {
-  const element = document.getElementById(selection.id)
-
-  const popover = document.getElementById(`pop-${selection.id}`)
-  if (!element) return
-  element.className = ''
-  element.setAttribute('style', '')
-  element.onmouseover = null
-  element.onmouseout = null
-  // const newSpan = document.createElement('span')
-  // while (element.firstChild) {
-  //   newSpan.appendChild(element.firstChild)
-  // }
-
-  // element.parentElement?.replaceChildren(element, newSpan)
-
-  if (popover) {
-    element.removeChild(popover)
-  }
-}
-export const updateDom = (selection: SelectionType) => {
-  const element = document.getElementById(selection.id)
-
-  if (!element) return
-  element.className = selection.className || defaultSelectionWrapperClassName
-  element.setAttribute('style', '')
 }

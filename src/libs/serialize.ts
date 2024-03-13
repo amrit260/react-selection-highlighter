@@ -1,22 +1,16 @@
-//@ts-nocheck
-import rangy from 'rangy'
+import { fromRange, toRange } from 'xpath-range'
+import { XpathType } from '../types'
 
-import 'rangy/lib/rangy-core.js'
-import 'rangy/lib/rangy-serializer'
-
-export const serializeRange = (range: Range) => {
-  return rangy.serializeRange(range, true) as string
+export const serializeRange = (range: Range, root: HTMLElement) => {
+  return JSON.stringify(fromRange(range, root) as XpathType)
 }
-export const deserializeRange = async (range: string) => {
-  try {
-    const parsed = (await rangy.deserializeRange(range)) as Range
-    return parsed
-  } catch (e) {
-    // TODO handle parsing error
-    if (process.env !== 'production') {
-      // console.log(e.message)
-    }
-  }
 
-  return
+export const deserializeRange = (path: string, root: HTMLElement) => {
+  const parsed = JSON.parse(path) as XpathType
+  try {
+    return toRange(parsed.start, parsed.startOffset, parsed.end, parsed.endOffset, root)
+  } catch (error) {
+    // console.log(path)
+    console.error(error)
+  }
 }
