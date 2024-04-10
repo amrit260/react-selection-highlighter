@@ -11,22 +11,19 @@ import { addHighlight, isHighlightable } from '../../libs/dom'
 import { getOriginalRange, getRangeStartEndContainerText } from '../../libs/createRange'
 import { sortByPositionAndOffset } from '../../libs/sort'
 
-interface BaseHighlighterProps {
+type BaseHighlighterProps = {
   htmlString: string
   minSelectionLength?: number
   maxSelectionLength?: number
   className?: string
-  // selections?: SelectionType[]
   selectionWrapperClassName?: string
   PopoverClassName?: string
   PopoverChildren?: PopoverChildrentype
   disablePopover?: boolean
-  /**
-   * The highlight color for the component.
-   * @type {string} - The color code. Default is red.
-   */
+
   onClickHighlight?: (selection: SelectionType, event: MouseEvent) => void
   onClick?: MouseEventHandler<HTMLDivElement>
+  onSelection?: (selection: SelectionType) => void
 }
 
 export const Highlighter: React.FC<BaseHighlighterProps> = ({
@@ -39,6 +36,7 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
   PopoverChildren,
   PopoverClassName,
   selectionWrapperClassName,
+  onSelection,
   onClick,
   // selections,
 }) => {
@@ -103,6 +101,7 @@ export const Highlighter: React.FC<BaseHighlighterProps> = ({
     }
 
     addSelection(newSelection)
+    onSelection && onSelection(newSelection)
   }
 
   useEffect(() => {
